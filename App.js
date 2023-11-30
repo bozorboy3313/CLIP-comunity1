@@ -1,103 +1,3 @@
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import React,{ useState, useEffect } from "react";
-// import { firebase  } from './config';
-
-// import Login from './src/Login';
-// import Registration from './src/Registration';
-// import Dashboard from './src/Dashboard';
-// import Header from './componentst/header';
-
-// const Stack = createNativeStackNavigator();
-// const auth = firebase.auth();
-
-
-// function App(){
-//   const [initializing, setInitializing] =useState(true);
-//   const [user, setUser] = useState();
-
-//   function onAuthStateChanged(user){
-//     setUser(user);
-//     if (initializing) setInitializing(false);
-
-//   }
-//   useEffect(() =>{
-//     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-//     return subscriber;
-
-//   }, []);
-//   if (initializing) return null;
-
-//   if (!user){
-//     return(
-//       <Stack.Navigator>
-//         <Stack.Screen
-//         name="Login" 
-//         component={Login}
-//         options={{
-//           headerTitle: () => <Header name="CLIP"/>,
-//           headerStyle: {
-//             height:150,
-//             borderBottomLeftRadius:50,
-//             borderBottomRightRadius:50,
-//             backgroundColor:'#9905DB',
-//             shadowColor:'#000',
-//             elevation:25
-
-//           }
-        
-//         }}
-//         />
-//         <Stack.Screen
-//         name="Registration" 
-//         component={Registration}
-//         options={{
-//           headerTitle: () => <Header name="CLIP"/>,
-//           headerStyle: {
-//             height:150,
-//             borderBottomLeftRadius:50,
-//             borderBottomRightRadius:50,
-//             backgroundColor:'#9905DB',
-//             shadowColor:'#000',
-//             elevation:25
-            
-//           }
-        
-//         }}
-//         />
-//       </Stack.Navigator>
-//     )
-//   }
-//   return(
-//     <Stack.Navigator>
-// <Stack.Screen
-//         name="dashboard" 
-//         component={dashboard}
-//         options={{
-//           headerTitle: () => <Header name="dashbpard"/>,
-//           headerStyle: {
-//             height:150,
-//             borderBottomLeftRadius:50,
-//             borderBottomRightRadius:50,
-//             backgroundColor:'#9905DB',
-//             shadowColor:'#000',
-//             elevation:25
-            
-//           }
-        
-//         }}
-//         />
-//     </Stack.Navigator>
-//   )
-// }
-// export default () => {
-//   return(
-//     <NavigationContainer>
-//       <App/>
-//     </NavigationContainer>
-//   )
-// }
-
 
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -109,6 +9,7 @@ import Login from './src/Login';
 import Registration from './src/Registration';
 import Dashboard from './src/Dashboard'; 
 import Home from './src/Home';
+import CreatePost from './src/CreatePost';
 import DetailScreen from './src/DetailScreen';
 
 
@@ -168,10 +69,10 @@ function App() {
           </>
         ) : (
           <Stack.Screen
-            name="Home"
-            component={Home}
+            name="CreatePost"
+            component={CreatePost}
             options={{
-              headerTitle: () => <Header name="Home" />,
+              headerTitle: () => <Header name="CreatePost" />,
               headerStyle: {
                 height: 150,
                 borderBottomLeftRadius: 50,
