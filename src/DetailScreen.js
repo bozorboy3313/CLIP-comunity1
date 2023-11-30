@@ -1,15 +1,28 @@
+
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import Swiper from 'react-native-swiper';
 import { MaterialIcons } from '@expo/vector-icons'; // Assuming you have the necessary icon library
 
 const DetailScreen = ({ route }) => {
-  const { title, category, keywords, content, location, price, image } = route.params;
+  // Destructure parameters from route
+  const { title, category, keywords, content, location, price, images } = route.params;
 
   return (
     <ScrollView style={styles.container}>
+      {/* Image Slider */}
       <View style={styles.imageContainer}>
-        {image && <Image source={{ uri: image }} style={styles.image} />}
+        {images && images.length > 0 && (
+          <Swiper style={styles.wrapper} showsButtons>
+            {images.map((imageUrl, index) => (
+                <Image  key={index} source={{ uri: String(imageUrl) }} style={styles.image} />
+  
+            ))}
+          </Swiper>
+        )}
       </View>
+    
+      {/* Rest of your content */}
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.category}>{category}</Text>
@@ -31,19 +44,22 @@ const DetailScreen = ({ route }) => {
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
   imageContainer: {
-    alignItems: 'center',
+    height: 400,
   },
+  wrapper: {},
   image: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
+    flex: 1,
+    width: null,
+    height: null,
   },
+    
   headerContainer: {
     padding: 16,
   },

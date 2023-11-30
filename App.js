@@ -7,9 +7,7 @@ import Header from './header'; // Adjust the path to your Header component
 
 import Login from './src/Login';
 import Registration from './src/Registration';
-import Dashboard from './src/Dashboard'; 
 import Home from './src/Home';
-import CreatePost from './src/CreatePost';
 import DetailScreen from './src/DetailScreen';
 
 
@@ -69,10 +67,10 @@ function App() {
           </>
         ) : (
           <Stack.Screen
-            name="CreatePost"
-            component={CreatePost}
+            name="Home"
+            component={Home}
             options={{
-              headerTitle: () => <Header name="CreatePost" />,
+              headerTitle: () => <Header name="Home" />,
               headerStyle: {
                 height: 150,
                 borderBottomLeftRadius: 50,
