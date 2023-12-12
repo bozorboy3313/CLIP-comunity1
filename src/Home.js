@@ -21,6 +21,11 @@ export default function App() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [editingItem, setEditingItem] = useState(null);
   
+  const removeImage = (index) => {
+    const updatedImages = [...selectedImages];
+    updatedImages.splice(index, 1);
+    setSelectedImages(updatedImages);
+  };
 
   // Inside your Home component
   const navigation = useNavigation();
@@ -130,8 +135,6 @@ export default function App() {
     }
   };
 
-
-
   const updatePost = async () => {
     if (editingPost) {
       try {
@@ -142,11 +145,11 @@ export default function App() {
           keywords: newKeywords,
           location: newLocation,
           price: newPrice,
-          images: selectedImages || [], // Ensure images is an array
+          images: [...(editingPost.images || []), ...selectedImages], // Concatenate existing images and new images
         };
-
+  
         await updateDoc(doc(db, 'community', editingPost.id), postData);
-
+  
         // Clear state after submission
         setEditingPost(null);
         setNewCategory('');
@@ -163,6 +166,8 @@ export default function App() {
       }
     }
   };
+  
+  
 
     const deletePost = async (id) => {
     try {
@@ -171,6 +176,12 @@ export default function App() {
     } catch (error) {
       console.error('Error deleting post:', error);
     }
+  };
+
+  const handleRemoveExistingImage = (index) => {
+    const updatedEditingPost = { ...editingPost };
+    updatedEditingPost.images.splice(index, 1);
+    setEditingPost(updatedEditingPost);
   };
 
   const cancelEdit = () => {
@@ -253,15 +264,56 @@ export default function App() {
             {editingPost ? '게시글 수정' : '글 작성'}
           </Text>
           
-          {/* {image && <Image source={{ uri: image }} style={{ width: 100, height: 100, marginBottom: 10 }}/>}
-          <Button title="이미지 업로드" onPress={pickImage} color="purple" /> */}
-          {images.length > 0 && (
+    
+
+          {selectedImages.length > 0 && (
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {images.map((imageUrl, index) => (
-                <Image key={index} source={{ uri: String(imageUrl) }} style={{ width: 100, height: 100, marginRight: 10, marginBottom: 10 }} />
+              {selectedImages.map((imageUrl, index) => (
+                <View key={index} style={{ marginRight: 10, marginBottom: 10 }}>
+                  <Image source={{ uri: imageUrl }} style={{ width: 100, height: 100 }} />
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      backgroundColor: 'red', // Background color of the circle
+                      borderRadius: 15, // Half of the desired circle diameter
+                      padding: 5, // Adjust as needed for spacing
+                    }}
+                    onPress={() => handleRemoveExistingImage(index)}
+                  >
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>삭제</Text>
+                  </TouchableOpacity>
+                </View>
               ))}
             </ScrollView>
           )}
+
+          {editingPost && editingPost.images && editingPost.images.length > 0 && (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {editingPost.images.map((imageUrl, index) => (
+                <View key={index} style={{ marginRight: 10, marginBottom: 10 }}>
+                  <Image source={{ uri: imageUrl }} style={{ width: 100, height: 100 }} />
+                  
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      backgroundColor: 'red',
+                      borderRadius: 15,
+                      padding: 5,
+                    }}
+                    onPress={() => handleRemoveExistingImage(index)}
+                  >
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>삭제</Text>
+                  </TouchableOpacity>
+
+                </View>
+              ))}
+            </ScrollView>
+          )}
+
           <Button title="이미지 업로드" onPress={pickImage} color="purple" />
 
           <TextInput
